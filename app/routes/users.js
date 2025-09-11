@@ -1,22 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const users = require('../controllers/users');
 
 router
   .route('/auth/login')
   .get((req, res) => {
     res.render('login');
   })
-  .post((req, res) => {
-    const { username, password } = req.body;
-  });
+  .post((req, res) => {});
 
 router
   .route('/auth/signup')
   .get((req, res) => {
     res.render('signup');
   })
-  .post((req, res) => {
-    const { username, email, password } = req.body;
-  });
+  .post(users.signupUser);
 
 module.exports = router;

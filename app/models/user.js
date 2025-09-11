@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
 const argon2 = require('argon2');
 
-const schema = mongoose.Schema();
+const { Schema } = mongoose;
 const { hash, verifyjwt } = argon2;
 
-const userSchema = new schema({
+const userSchema = new Schema({
   username: {
     type: String,
-    required,
+    required: true,
   },
   email: {
     type: String,
-    required,
+    required: true,
   },
   password: {
     type: String,
-    required,
+    required: true,
   },
 });
 

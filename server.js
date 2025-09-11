@@ -1,4 +1,5 @@
 const express = require('express');
+const dbconnect = require('./config/dbconnect');
 
 //Routes
 const users = require('./app/routes/users');
@@ -7,6 +8,8 @@ const homepage = require('./app/routes/homepage');
 const app = express();
 
 app.set('view engine', 'ejs');
+
+dbconnect();
 
 //Makes req.body readable
 app.use(express.json());
