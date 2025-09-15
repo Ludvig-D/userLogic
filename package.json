@@ -14,9 +14,11 @@
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.44.0",
+    "dotenv": "^17.2.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "jose": "^6.1.0",
+    "js-cookie": "^3.0.5",
     "mongoose": "^8.18.1"
   }
 }
