@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const argon2 = require('argon2');
 
 const { Schema } = mongoose;
-const { hash, verifyjwt } = argon2;
+const { hash, verify } = argon2;
 
 const userSchema = new Schema({
   username: {
@@ -18,6 +18,10 @@ const userSchema = new Schema({
     required: true,
   },
 });
+
+userSchema.methods.verifyPassword = async function (password) {
+  return await verify(this.password, password);
+};
 
 userSchema.pre('save', async function () {
   this.password = await hash(this.password);

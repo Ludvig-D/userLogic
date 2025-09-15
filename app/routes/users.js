@@ -7,7 +7,7 @@ router
   .get((req, res) => {
     res.render('login');
   })
-  .post((req, res) => {});
+  .post(users.loginUser);
 
 router
   .route('/auth/signup')
