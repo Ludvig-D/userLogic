@@ -1,6 +1,9 @@
 const User = require('../models/user');
 const tokenSign = require('../middleware/InitializeToken');
-const cookie = require('js-cookie');
+
+module.exports.signupRender = (req, res) => {
+  res.render('signup');
+};
 
 module.exports.signupUser = async (req, res) => {
   try {
@@ -28,6 +31,10 @@ module.exports.signupUser = async (req, res) => {
   }
 };
 
+module.exports.loginRender = (req, res) => {
+  res.render('login');
+};
+
 module.exports.loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -45,8 +52,19 @@ module.exports.loginUser = async (req, res) => {
     const accessToken = await tokenSign({ userid: userExists._id }, '15m');
     const refreshToken = await tokenSign({ userId: userExists._id }, '7d');
 
-    cookie.set('AccessToken', accessToken);
-    cookie.set('RefreshToken', refreshToken);
+    res.cookie('AccessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie('RefreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.status(200).json({ message: 'Login succesfull' });
   } catch (error) {
