@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Session = require('../models/session');
 const tokenSign = require('../middleware/InitializeToken');
 
 module.exports.signupRender = (req, res) => {
@@ -50,7 +51,15 @@ module.exports.loginUser = async (req, res) => {
     }
 
     const accessToken = await tokenSign({ userid: userExists._id }, '15m');
-    const refreshToken = await tokenSign({ userId: userExists._id }, '7d');
+    const refreshToken = crypto.randomUUID();
+
+    const token = new Session({
+      userId: userExists._id,
+      token: refreshToken,
+      expireseAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    });
+
+    await token.save();
 
     res.cookie('AccessToken', accessToken, {
       httpOnly: true,
