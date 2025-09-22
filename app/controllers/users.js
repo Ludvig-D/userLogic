@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Session = require('../models/session');
-const tokenSign = require('../middleware/InitializeToken');
+const tokenSign = require('../middleware/createJWT');
 
 module.exports.signupRender = (req, res) => {
   res.render('signup');
